@@ -7,35 +7,39 @@ import ModalMy from "./ModalMy";
 
 
 export default function AufgabeKochBook() {
-  //const APP_ID = '8b8e8a1e';
-  //const APP_KEY = '5fc119115d877bf753b2f99f094b7eb1';
+  const APP_ID = '8b8e8a1e';
+  const APP_KEY = '5fc119115d877bf753b2f99f094b7eb1';
 
   const [inputValue, setInputValue] = useState("");
   const [recipie, setRecipe] = useState([]);
-  const [select, setSelect] = useState("");
+  //const [select, setSelect] = useState("");
 
 
+  /*
+  https://api.edamam.com/search?q=${inputValue}&app_id=${APP_ID}&app_key=${APP_KEY}
+  https://www.themealdb.com/api/json/v1/1/filter.php?c=${inputValue}
+  */
   useEffect(() => {
-    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${inputValue}`)
+    fetch(`https://api.edamam.com/search?q=${inputValue}&app_id=8b8e8a1e&app_key=5fc119115d877bf753b2f99f094b7eb1`)
       .then((res) => res.json())
       .then((json) => {
-        setRecipe(json.meals);
+        setRecipe(json.hits);
       });
   }, [inputValue]);
+
+  console.log("recipe list",recipie)
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
     console.log(inputValue);
   };
-  console.log("recipie liste", recipie);
-
 
 /*
   const handleSelect = (promtselect) => {
     setSelect(promtselect);
   };
   */
-  console.log(select);
+  
 
   return (
     <div>
@@ -48,20 +52,19 @@ export default function AufgabeKochBook() {
             return (
               <div key={index}>
                 <Card
-                  id={item.idMeal}
+                  id={item.recipie}
                   className="card"
-                  style={{ width: "18rem" }}
+                 
                 >
                   <Card.Img
                     variant="top"
-                    src={item.strMealThumb}
-                    style={{ width: "200px" }}
+                    src={item.recipe.image}
+                    style={{ width: "300px" }}
                   />
                   <Card.Body>
-                    <Card.Title>{item.strMeal}</Card.Title>
-                    <Card.Link href={item.strMealThumb}>link</Card.Link>
-                    <Card.Text>{item.strInstructions}</Card.Text>
-                    <ModalMy name={item.strMeal} />
+                    <Card.Title>{item.recipe.label}</Card.Title>
+                    <Card.Link href={item.recipe.url}>Go to rezept</Card.Link>
+                    <ModalMy name={item.recipe} />
                     {/*<Button 
                       key={index}
                       className="cardbutton"

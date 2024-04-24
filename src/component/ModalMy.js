@@ -12,7 +12,7 @@ export default function ModalMy(props) {
       <div className="maincontainer">
                 <div>
                   <Button variant="primary" onClick={handleShow}>
-                    Go to Information
+                    Information
                   </Button>
                   <Modal show={show} onHide={()=>setShow(false)}>
                     <Modal.Header closeButton>
