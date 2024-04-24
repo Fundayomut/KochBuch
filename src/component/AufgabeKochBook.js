@@ -4,6 +4,9 @@ import Card from "react-bootstrap/Card";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MyModal from "./ModalMy";
 import ModalMy from "./ModalMy";
+import { CardText } from "react-bootstrap";
+import Header from "./Header";
+import RandomMeal from "./RandomMeal";
 
 
 export default function AufgabeKochBook() {
@@ -12,7 +15,6 @@ export default function AufgabeKochBook() {
 
   const [inputValue, setInputValue] = useState("");
   const [recipie, setRecipe] = useState([]);
-  //const [select, setSelect] = useState("");
 
 
   /*
@@ -27,6 +29,8 @@ export default function AufgabeKochBook() {
       });
   }, [inputValue]);
 
+
+
   console.log("recipe list",recipie)
 
   const handleChange = (e) => {
@@ -34,18 +38,20 @@ export default function AufgabeKochBook() {
     console.log(inputValue);
   };
 
-/*
-  const handleSelect = (promtselect) => {
-    setSelect(promtselect);
-  };
-  */
-  
 
   return (
     <div>
-      <h1>Koch Book</h1>
+      <div>
+        <Header />
+      </div>
+      <div className="maindiv">
+      <h1>Koch Buch</h1>
       <label>Search Meal:</label>
       <input type="text" onChange={handleChange} value={inputValue} placeholder="Zb: Pasta..." />
+      <div className="container">
+      <div>
+      <RandomMeal/>
+      </div>
       <div className="maincontainer">
         {recipie &&
           recipie.map((item, index) => {
@@ -54,7 +60,6 @@ export default function AufgabeKochBook() {
                 <Card
                   id={item.recipie}
                   className="card"
-                 
                 >
                   <Card.Img
                     variant="top"
@@ -63,22 +68,26 @@ export default function AufgabeKochBook() {
                   />
                   <Card.Body>
                     <Card.Title>{item.recipe.label}</Card.Title>
-                    <Card.Link href={item.recipe.url}>Go to rezept</Card.Link>
-                    <ModalMy name={item.recipe} />
-                    {/*<Button 
-                      key={index}
-                      className="cardbutton"
-                      variant="primary"
-                      onClick={() => handleSelect(item)}
-                    >
-                      Go Recipie
-                    </Button>*/}
+                  
+                    <CardText style={{marginTop:"10px"}}>
+                      <h5>{item.recipe.dishType}</h5>
+                      <h6>{item.recipe.cuisineType}</h6>
+                      <h6>{item.recipe.dietLabels} / Calorie :{parseInt(item.recipe.calories)} </h6>
+                      </CardText>
                   </Card.Body>
+                  <Card.Footer style={{padding:"0px" , borderTop:"none"}}>
+                  <ModalMy name={item.recipe.label}
+                    health={item.recipe.healthLabels}
+                    type={item.recipe.mealType}/>
+                  </Card.Footer>
+                  <Card.Link  href={item.recipe.url}>Go to rezept</Card.Link>
                 </Card>
               </div>
             );
           })}
+          </div>
       </div>
+    </div>
     </div>
   );
 }

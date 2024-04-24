@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,17 +16,25 @@ export default function ModalMy(props) {
                   </Button>
                   <Modal show={show} onHide={()=>setShow(false)}>
                     <Modal.Header closeButton>
-                      <Modal.Title>Modal heading</Modal.Title>
+                      <Modal.Title> {props.name}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                      Woohoo, you are reading this text in a modal!
+                    <h4>Mealtime :</h4>
+                      <ul className="type">
+                        {props.type.map((item,index)=>(
+                          <li key={index}>{item}</li>
+                        ))}
+                      </ul>
+                      <h4 >Healty Information :</h4>
+                      <ul>
+                        {props.health.map((item,index)=>( 
+                        <li key={index}>{item}</li>
+                        ))}
+                      </ul>
                     </Modal.Body>
                     <Modal.Footer>
-                      <Button variant="secondary" onClick={handleClose}>
-                        Close
-                      </Button>
                       <Button variant="primary" onClick={handleClose}>
-                        Save Changes
+                      Close
                       </Button>
                     </Modal.Footer>
                   </Modal>
